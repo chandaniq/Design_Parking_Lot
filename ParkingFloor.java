@@ -1,6 +1,6 @@
 package design_quest_sept.parking_lot;
 import java.util.*;
-public class ParkingFloor {
+public class ParkingFloor implements Observer{
     private String floorNumber;
     private Map<ParkingSpotType,List<ParkingSpot>> parkingSpots;
     private ParkingDisplayBoard displayBoard;
@@ -20,6 +20,7 @@ public class ParkingFloor {
     }
     public ParkingSpot getReleaventParkingSpot(Vehicle vehicle)
     {
+        System.out.println("Get Relevent Parking Spot");
         VehicleType vehicleType = vehicle.getVehicleType();
         ParkingSpotType parkingSpotType = getParkingSpot(vehicleType);
         System.out.println(parkingSpotType);
@@ -30,15 +31,20 @@ public class ParkingFloor {
             if(ps.isFree()) {
                 spot = ps;
                 ps.parkVehicle(vehicle);
-                updateDisplayBoard();
+                //updateDisplayBoard();
                 break;
             }
         }
         return spot;
 
     }
+    public void update() {
+        System.out.println("Update ");
+        updateDisplayBoard();
+    }
     public void updateDisplayBoard()
     {
+        System.out.println("Update the Display Borad");
         Map<ParkingSpotType, Integer> freeSpotsCount = new HashMap<>();
         for (Map.Entry<ParkingSpotType, List<ParkingSpot>> entry : parkingSpots.entrySet()) {
             ParkingSpotType spotType = entry.getKey();

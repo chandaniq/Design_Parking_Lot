@@ -17,6 +17,8 @@ public class ParkingLotDemo {
         largeSpots.add(new ParkingSpot("L1", ParkingSpotType.LARGE));
         largeSpots.add(new ParkingSpot("L2",ParkingSpotType.LARGE));
 
+        
+
         // Create a map for parking spots categorized by type
         Map<ParkingSpotType, List<ParkingSpot>> parkingSpots = new HashMap<>();
         parkingSpots.put(ParkingSpotType.COMPACT, compactSpots);
@@ -28,8 +30,21 @@ public class ParkingLotDemo {
         List<ParkingFloor> floors = new ArrayList<>();
         floors.add(floor1);
 
+        //Observer Pattern 
+        for (ParkingSpot spots: compactSpots) {
+            spots.addObserver(floor1);
+        }
+        for (ParkingSpot spots: standardSpots) {
+            spots.addObserver(floor1);
+        }
+        for (ParkingSpot spots: largeSpots) {
+            spots.addObserver(floor1);
+        }
+
+
         // Create the parking lot
-        ParkingLot parkingLot = ParkingLot.getInstance("Main Parking Lot", new Address("123 Main St", "Bangalore", "Karnataka", "India", "500000"), floors);
+        //ParkingLot parkingLot = ParkingLot.getInstance("Main Parking Lot", new Address("123 Main St", "Bangalore", "Karnataka", "India", "500000"), floors);
+        ParkingLot parkingLot = ParkingLot.getInstance("Main Parking Lot", new Address("123 Main St", "Bangalore", "Karnataka", "India", "500000"), floors, new FlatRatePricingStrategy(50));
 
         // Create vehicles
         Vehicle car1 = new Vehicle("ABC123", VehicleType.CAR);
@@ -60,10 +75,12 @@ public class ParkingLotDemo {
         }
 
         // Check availability after parking and leaving one vehicle
+        /* 
         System.out.println("Available spots after leaving the car:");
         for (ParkingFloor floor : floors) {
             floor.updateDisplayBoard(); // Assume this method exists to display free spots
         }
+        */
     }
 }
 

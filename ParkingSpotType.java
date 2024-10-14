@@ -1,5 +1,6 @@
 package design_quest_sept.parking_lot;
 public enum ParkingSpotType {
+    /* 
     TWOWHLEER {
         public double getPrice(int durationInHours) {
             double totalAmount = 0.0;
@@ -59,5 +60,20 @@ public enum ParkingSpotType {
         }
     };
     public abstract double getPrice(int duration);
+    */
+    TWOWHLEER {
+        public double getPrice() {
+            return 40.0;
+        }
+    }, COMPACT {
+        public double getPrice() {
+            return 50.0;
+        }
+    }, LARGE {
+        public double getPrice() {
+            return 100.0;
+        }
+    };
+    public abstract double getPrice();
     
 }

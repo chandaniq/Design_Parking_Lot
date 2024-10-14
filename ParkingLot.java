@@ -5,21 +5,27 @@ public class ParkingLot {
     private Address address;
     private List<ParkingFloor> parkingFloors;
     private static ParkingLot parkinglot;
+    private PricingStrategy pricingStrategy;
 
-    private ParkingLot(String name, Address address, List<ParkingFloor> parkingFloors) {
+    // private constructor to prevent instantion
+    private ParkingLot(String name, Address address, List<ParkingFloor> parkingFloors, PricingStrategy pricingStrategy) {
         this.name = name;
         this.address = address;
         this.parkingFloors = parkingFloors;
+        this.pricingStrategy = pricingStrategy;
 
     }
-    public static ParkingLot getInstance(String name, Address address, List<ParkingFloor> parkingFloors) {
+
+    // static method to return singleton instance
+    public static ParkingLot getInstance(String name, Address address, List<ParkingFloor> parkingFloors, PricingStrategy pricingStrategy) {
         if(parkinglot == null)
         {
-            parkinglot = new ParkingLot(name, address, parkingFloors);
+            parkinglot = new ParkingLot(name, address, parkingFloors, pricingStrategy);
         }
         return parkinglot;
     }
     public ParkingTicket assignTicket(Vehicle vehicle) {
+        System.out.println("Assiging Ticket");
         ParkingSpot spot = getParkingSpotAndPark(vehicle);
         if(spot == null)
             return null;
@@ -31,7 +37,9 @@ public class ParkingLot {
         long payTime = System.currentTimeMillis();
         int duration = (int)(payTime-ticket.getIssueTime())/1000;
         int durationInHours = (int) Math.ceil(duration / 3600.0); // Total duration in hours
-        double price = ticket.getParkingSpot().getParkingSpotType().getPrice(durationInHours);
+        //double price = ticket.getParkingSpot().getParkingSpotType().getPrice(durationInHours);
+        double price = ticket.getParkingSpot().getParkingSpotType().getPrice();
+
 
         // Remove the vehicle and return the total amount
         ticket.getParkingSpot().removeVehicle();
@@ -39,6 +47,7 @@ public class ParkingLot {
 
     }
     public ParkingSpot getParkingSpotAndPark(Vehicle vehicle) {
+        System.out.println("Get Parking Spot");
         ParkingSpot spot = null;
         for (ParkingFloor floor : parkingFloors)
         {
